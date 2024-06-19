@@ -1,0 +1,9 @@
+x, y, z = 10, 5, 10
+print("Is x greater than y: ", x>y)
+Is x greater than y:  True
+print("Is x lesser than y : ", x<y)
+Is x lesser than y :  False
+print("Is x equal to y : ", x==y)
+Is x equal to y :  False
+print("Is x equal to y : ", x==z)
+Is x equal to y :  True
