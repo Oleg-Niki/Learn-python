@@ -1,15 +1,23 @@
 import random
-print("Hello to my guessing game /n Guess the number between 1 and 10 /n Enter the number you guess:")
-user_guess = int(input())
-print("You entered: ", user_guess)
-
+count_atmpts = 3
 random_number = random.randint(1, 10)
-if user_guess == random_number:
-    print("You guessed the correct number")
-elif user_guess != random_number:
-    print("You guessed the wrong number")
-    count = 3
-    count -= 1
-    print("You have", count, "chances left")
-    print("The correct number is: ", random_number)
+print("Hello to my guessing game. Guess the number between 1 and 10, you have", count_atmpts, "attempts.")
+
+while count_atmpts > 0:
+    user_guess = int(input("Enter the number you guess: "))
+    print("You entered: ", user_guess)
+
+    if user_guess == random_number:
+        print("You guessed the correct number")
+        break
+    elif user_guess < random_number:
+        print("Your guess is lower than the correct number")
+    else:
+        print("Your guess is higher than the correct number")
+    
+    count_atmpts -= 1
+    print("You have", count_atmpts, "chances left")
+
+if count_atmpts == 0:
+    print("Sorry, you've run out of attempts. The correct number was", random_number)
     
