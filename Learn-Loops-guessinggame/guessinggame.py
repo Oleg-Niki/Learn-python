@@ -8,7 +8,7 @@ while count_atmpts > 0:
     print("You entered: ", user_guess)
 
     if user_guess == random_number:
-        print("WOW! Congrats! You guessed the correct number")1
+        print("WOW! Congrats! You guessed the correct number")
         break
     elif user_guess < random_number:
         print("Your guess is lower than the correct number")
