@@ -1,38 +1,39 @@
-f = open("practice_file.txt", "w+")
-f.write("Hello World \nThis is a practice file_FIRST LINE \nThis is the second line \nThis is the third line")
-f = open("practice_file.txt", "r")
-content = f.read()
+file_name = "practice_file.txt"
+
+# Write initial content
+with open(file_name, "w") as f:
+    f.write("Hello World \nThis is a practice file_FIRST LINE \nThis is the second line \nThis is the third line")
+
+# Read and display content
+with open(file_name, "r") as f:
+    content = f.read()
 print(content)
 
-f = open("practice_file.txt", "a")
-f.write("\nThis is the fourth line appended to the file")
-f = open("practice_file.txt", "r")
-lines = f.readlines()
-lines_count = len(lines)
-print("in this file at this moment we have" , lines_count, "lines")
+# Append content
+with open(file_name, "a") as f:
+    f.write("\nThis is the fourth line appended to the file")
 
-print("Ask the word you want to search in the file:")
-word = input()
-f = open("practice_file.txt", "r")
-word_count = 0
-for line in f:
-    words = line.split()
-    for i in words:
-        if i == word:
-            word_count += 1
-print("The word", word, "is found", word_count, "times in the file")
+# Count lines
+with open(file_name, "r") as f:
+    lines = f.readlines()
+print(f"In this file at this moment, we have {len(lines)} lines")
 
-print("Ask the word you want to replace in the file:")
-word_replace = input()
-print("Ask the word you want to replace with:")
-word_replace_with = input()
-f = open("practice_file.txt", "r")
-content_replace = f.read()
-content_replace = content_replace.replace(word_replace, word_replace_with)
-f = open("practice_file.txt", "w")
-f.write(content_replace)
-f = open("practice_file.txt", "r")
-content = f.read()
-print(content)
+# Search for a word
+word = input("Enter the word you want to search in the file: ")
+with open(file_name, "r") as f:
+    word_count = sum(line.lower().count(word.lower()) for line in f)
+print(f"The word '{word}' is found {word_count} times in the file.")
 
-f.close()
+# Replace a word
+word_replace = input("Enter the word you want to replace: ")
+word_replace_with = input("Enter the word you want to replace it with: ")
+with open(file_name, "r") as f:
+    content = f.read()
+content = content.replace(word_replace, word_replace_with)
+with open(file_name, "w") as f:
+    f.write(content)
+
+# Display updated content
+with open(file_name, "r") as f:
+    updated_content = f.read()
+print(updated_content)
