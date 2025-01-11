@@ -1,0 +1,5 @@
+Hello World 
+Thhuy huy a practice file_FIRST LINE 
+Thhuy huy the second line 
+Thhuy huy the third line
+Thhuy huy the fourth line appended to the file
