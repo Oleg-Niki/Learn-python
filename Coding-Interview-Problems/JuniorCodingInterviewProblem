@@ -1,0 +1,62 @@
+# Problem: Find the First Unique Character in a String
+
+# Description:
+# Write a function that takes a string as input and returns the index of the first non-repeating character. 
+# If no unique character exists, return -1.
+
+# Constraints:
+# The input string will only contain lowercase English letters (a-z).
+# The input string will have a length between 1 and 10^5.
+# Function Signature (Python):
+
+# python
+# # Example 1:
+# input = "leetcode"
+# output = 0
+# # Explanation: The first non-repeating character is 'l', at index 0.
+
+# # Example 2:
+# input = "loveleetcode"
+# output = 2
+# # Explanation: The first non-repeating character is 'v', at index 2.
+
+# # Example 3:
+# input = "aabbcc"
+# output = -1
+# # Explanation: There are no unique characters in the string.
+# Hints:
+
+# You can use a dictionary to count the frequency of each character.
+# Once you have the frequency of characters, you can iterate through the string to find the first character with a frequency of 1.
+
+def unique_characters(user_input):
+    return set(user_input)
+            
+print("Welcove! Here we are going to Find the First Unique Character in a String you just entered!, Please enter the string: ")
+user_input = input()
+print("You entered: ", user_input, " and the first unique character is: ", unique_characters(user_input))
+
+def unique_characters2(user_input2):
+    char_count = {}
+    for char in user_input2:
+        char_count[char] = char_count.get(char, 0) + 1
+    return [char for char, count in char_count.items() if count == 1]
+            
+print("One more time enter your string here:")            
+user_input2 = input()
+print("You entered: ", user_input2, " and the first unique character is: ", unique_characters2(user_input2))
+
+def first_unique_character(s: str) -> int:
+    # Step 1: Loop through each character in the string
+    for index, char in enumerate(s):
+        # Step 2: Count the occurrences of the character in the string
+        if s.count(char) == 1:
+            # Step 3: Return the index of the first unique character
+            return index
+    
+    # Step 4: If no unique character exists, return -1
+    return -1
+
+print("Third time enter your string here:")
+s = input()
+print("You entered: ", s, " and the first unique character is: ", first_unique_character(s))
