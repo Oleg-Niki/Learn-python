@@ -60,3 +60,5 @@ def first_unique_character(s: str) -> int:
 print("Third time enter your string here:")
 s = input()
 print("You entered: ", s, " and the first unique character is: ", first_unique_character(s))
+
+
