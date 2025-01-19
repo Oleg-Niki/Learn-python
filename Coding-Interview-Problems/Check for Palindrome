@@ -1,0 +1,51 @@
+# Problem: Check for Palindrome
+# Description:
+# Write a function to determine if a given string is a palindrome. 
+# A string is a palindrome if it reads the same backward as forward, ignoring case and non-alphanumeric characters.
+
+# Constraints:
+# The input string will consist of printable ASCII characters.
+# Treat uppercase and lowercase letters as equal.
+# Ignore spaces, punctuation, and special characters.
+# Function Signature (Python):
+
+# python
+# def is_palindrome(s: str) -> bool:
+#     pass
+# Examples:
+
+# # Example 1:
+# input = "A man, a plan, a canal: Panama"
+# output = True
+# # Explanation: After removing non-alphanumeric characters and converting to lowercase, "amanaplanacanalpanama" is a palindrome.
+
+# # Example 2:
+# input = "race a car"
+# output = False
+# # Explanation: After removing non-alphanumeric characters and converting to lowercase, "raceacar" is not a palindrome.
+
+# # Example 3:
+# input = " "
+# output = True
+# # Explanation: An empty string is considered a valid palindrome.
+# Hints:
+
+# Use string manipulation to preprocess the input string by removing non-alphanumeric characters and converting to lowercase.
+# Check if the processed string is equal to its reverse.
+
+def is_palindrome(str):
+    #run loop from 0 to len/2
+    for i in range(0, int(len(str)/2)):
+        if str[i] != str[len(str)-i-1]:
+            return False
+    return True
+
+#main function
+print("Enter the string to check for palindrome: ")
+s = input()
+ans = is_palindrome(s)
+
+if (ans):
+    print("Yes")
+else:
+    print("No")
