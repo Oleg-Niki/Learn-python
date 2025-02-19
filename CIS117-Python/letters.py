@@ -248,7 +248,7 @@ def draw_m(t, n):
 def draw_o(t, n):
     skip(t, n)
     circle(t, n)
-    skip(t, n)
+    skip(t, n/2)
 
 def draw_p(t, n):
     bump(t, n, 1)
