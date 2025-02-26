@@ -20,6 +20,13 @@ Description:
 import random
 
 def guessing_game():
+    #generate a random number
+    secret_number = random.randint(1, 100)
+    #set the number of attempts
+    attempts = 5
+    #prompt the user to guess the number
+    print("I'm thinking of a number between 1 and 100.")
+    
     """
     Author: Partner1
     --------------------------------------------------
@@ -113,24 +120,23 @@ if __name__ == "__main__":
     # TODO: Implement the main program logic here.
     # Example steps/pseudocode:
     #
-    # while True:
-    #     print("Which game do you want to play?")
-    #     print("1. Guessing Game")
-    #     print("2. Rock-paper-scissors")
-    #     user_input = input("Enter your choice (or 'q' to quit): ")
-    #
-    #     if user_input == '1':
-    #         guessing_game()
-    #     elif user_input == '2':
-    #         rock_paper_scissors()
-    #     elif user_input.lower() == 'q':
-    #         print("Thanks for playing!")
-    #         break
-    #     else:
-    #         print("Invalid choice. Please select 1, 2, or 'q' to quit.")
-    #
+    while True:
+        print("Which game do you want to play?")
+        print("1. Guessing Game")
+        print("2. Rock-paper-scissors")
+        user_input = input("Enter your choice (or 'q' to quit): ")
+    
+        if user_input == '1':
+            guessing_game()
+        elif user_input == '2':
+            rock_paper_scissors()
+        elif user_input.lower() == 'q':
+            print("Thanks for playing!")
+            break
+        else:
+            print("Invalid choice. Please select 1, 2, or 'q' to quit.")
+    
     # pass
-
     pass
     # Note: The above code is a template and needs to be filled in with
     # actual game logic and user interaction.
