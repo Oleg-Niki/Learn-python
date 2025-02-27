@@ -1,0 +1,74 @@
+%Oleg Nikitashin
+%Lab3 data reduction
+clear
+clc
+
+data = readtable("Specimen_RawData_1.csv");
+W = [13.55, 13.66, 13.6]; %mm
+t = [3.15, 3.16, 3.7]; %mm
+areaAve = mean(W)*mean(t);
+load = data.Load;% in Newtons
+strain = data.TensileStrain_Strain1_;%in mm/mm
+strain = strain(1:end-2);
+stress = load./areaAve; % Engineering Stress N/mm^2
+[UTS,I] = max(stress);
+UTS_strain = strain(I);
+StressToeToIndex = find(StressToeLogical, 1)
+
+
+
+figure(1)
+clf %clear the figure
+hold on
+plot(strain,stress)
+plot(UTS_strain, UTS, "d", LineWidth=1)
+%ToeCompensation
+StressToe = 27.2498
+StressToeLogical = round((stress - StressToe), 2) == 0
+StressToeIndex = find(StressToeLogical, 1)
+
+P = polyfit(strain(StressToeIndex+20), stress(StressToeIndex:(StressToeToIndex+20),1))
+strainShift = -P(2)/P(1)
+strainTC = strain(StressToeIndex:end)-strainShift
+strainTC = stress(StressToeIndex:end)
+figure(2)
+clf
+hold on
+plot(strain,stress, "--x")
+plot(UTS_strain, UTS, "d", LineWidth=1)
+plot(strain(StressToeToIndex),stress(StressToeIndex)), "o", LineWidth = 2)
+xlim([-5e-5,0.002])
+ylim([0,200])
+
+
+
+%Determine E and Ys
+linearIdx = 1:30;
+strainLinear = strainTC(linearIdx)
+stressLinear = stressTC(linearIdx)
+B = [strainLinear,strainLinear*0]\stressLinear
+E_est_strain = [0,0.002];
+E_est_stress = E_est_strain * E;
+offset = 0.002;
+b_offset = -E*offset;
+stressOffset = strainTC*E +b_offset;
+offsetDelta = abs(stressTC - stressOffset)
+[x,I] = min(offsetDelta)
+YS = stressTC(I);
+
+%figure 3 low strain region plot
+figure(3)
+clf
+hold on
+plot(strainTC,stressTC, ":x")
+plot(strainLinear,stressLinear, 'o')
+plot(E_est_strain,E_est_stress)
+plot(StrainTC,stressOffset, ":x")
+plot(strainTC(I),YS,'o',LineWidth=1, "DisplayName")
+xlim([0,0.004])
+ylim([0,200])
+
+title("YOUR TITLE", FontSize=15)
+xlabel("Your x label")
+ylabel("your y label")
+legend()

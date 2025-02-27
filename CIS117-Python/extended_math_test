@@ -1,0 +1,5 @@
+from test import hypotenuse
+
+print("Testing extended math functions...")
+print(hypotenuse(3, 4))  # Expected output: 5.0
+print(hypotenuse(5, 12))  # Expected output: 13.0

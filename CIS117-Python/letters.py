@@ -18,22 +18,22 @@ from polygon import circle, arc
 # LEVEL 0 PRIMITIVES 
 # fd, bk, lt, rt, pu, pd
 
-def fd(t, length):
+def forward(t: turtle.Turtle, length):
     t.fd(length)
 
-def bk(t, length):
+def bk(t: turtle.Turtle, length):
     t.bk(length)
 
-def lt(t, angle=90):
+def lt(t: turtle.Turtle, angle=90):
     t.lt(angle)
 
 def rt(t, angle=90):
     t.rt(angle)
 
-def pd(t):
+def pen_down(t: turtle.Turtle):
     t.pd()
 
-def pu(t):
+def pen_up(t):
     t.pu()
 
 
@@ -42,24 +42,24 @@ def pu(t):
 
 def fdlt(t, n, angle=90):
     """forward and left"""
-    fd(t, n)
+    forward(t, n)
     lt(t, angle)
 
 def fdbk(t, n):
     """forward and back, ending at the original position"""
-    fd(t, n)
+    forward(t, n)
     bk(t, n)
 
 def skip(t, n):
     """lift the pen and move"""
-    pu(t)
-    fd(t, n)
-    pd(t)
+    pen_up(t)
+    forward(t, n)
+    pen_down(t)
 
 def stump(t, n, angle=90):
     """Makes a vertical line and leave the turtle at the top, facing right"""
     lt(t)
-    fd(t, n)
+    forward(t, n)
     rt(t, angle)
 
 def hollow(t, n):
@@ -97,7 +97,7 @@ def hangman(t, n, height):
     bk(t, n*height)
     rt(t)
 
-def diagonal(t, x, y):
+def diagonal(t: turtle.Turtle, x, y):
     """Makes a diagonal line to the given x, y offsets and return"""
     from math import atan2, sqrt, pi
     angle = atan2(y, x) * 180 / pi
@@ -144,7 +144,7 @@ def draw_b(t, n):
 
 def draw_c(t, n):
     hangman(t, n, 2)
-    fd(t, n)
+    forward(t, n)
 
 def draw_d(t, n):
     bump(t, 2*n, 0)
@@ -156,7 +156,36 @@ def draw_ef(t, n):
 
 def draw_e(t, n):
     draw_ef(t, n)
-    fd(t, n)
+    forward(t, n)
+    
+def draw_lowercase_e(t, n):
+    """Draw a lowercase e"""
+    #stump(t, n/2)
+    pen_up(t)
+    lt(t)
+    forward(t, 0.4*(n))
+    pen_down(t)
+    rt(t)    
+    forward(t, n/2)
+    arc(t, n/2, 270)
+    forward(t, n/2.4)
+    arc(t, n/2, 130)
+    rt(t, 40)
+    pen_up(t)
+    rt(t, 90)
+    forward(t, n*0.1)
+    pen_down(t)
+    lt(t, 90)
+    
+def draw_lowercase_g(t, n):
+    """Draw a lowercase g"""
+    circle(t, (n/2)*1.4)
+    skip(t, (n/2)*1.4)
+    post(t, n*1.4)
+    post(t, -n/2)
+    hollow(t, -n/2)
+    rt(t)
+    arc(t, 0.7*n, -140)
 
 def draw_f(t, n):
     draw_ef(t, n)
@@ -164,9 +193,9 @@ def draw_f(t, n):
 
 def draw_g(t, n):
     hangman(t, n, 2)
-    fd(t, n/2)
+    forward(t, n/2)
     beam(t, n/2, 2)
-    fd(t, n/2)
+    forward(t, n/2)
     post(t, n)
 
 def draw_h(t, n):
@@ -177,14 +206,14 @@ def draw_h(t, n):
 
 def draw_i(t, n):
     beam(t, n, 2)
-    fd(t, n/2)
+    forward(t, n/2)
     post(t, 2*n)
-    fd(t, n/2)
+    forward(t, n/2)
 
 def draw_j(t, n):
     beam(t, n, 2)
     arc(t, n/2, 90)
-    fd(t, 3*n/2)
+    forward(t, 3*n/2)
     skip(t, -2*n)
     rt(t)
     skip(t, n/2)
@@ -198,9 +227,14 @@ def draw_k(t, n):
 
 def draw_l(t, n):
     post(t, 2*n)
-    fd(t, n)
+    forward(t, n)
+    
+def draw_lowercase_l(t, n):
+    post(t, 2*n)
+    forward(t, n/8)
+    
 
-def draw_n(t, n):
+def draw_n(t: turtle.Turtle, n):
     post(t, 2*n)
     skip(t, n)
     diagonal(t, -n, 2*n)
@@ -214,7 +248,7 @@ def draw_m(t, n):
 def draw_o(t, n):
     skip(t, n)
     circle(t, n)
-    skip(t, n)
+    skip(t, n/2)
 
 def draw_p(t, n):
     bump(t, n, 1)
@@ -229,7 +263,7 @@ def draw_r(t, n):
     diagonal(t, -n/2, n)
 
 def draw_s(t, n):
-    fd(t, n/2)
+    forward(t, n/2)
     arc(t, n/2, 180)
     arc(t, n/2, -180)
     fdlt(t, n/2, -90)
@@ -244,7 +278,7 @@ def draw_t(t, n):
 
 def draw_u(t, n):
     post(t, 2*n)
-    fd(t, n)
+    forward(t, n)
     post(t, 2*n)
 
 def draw_v(t, n):
@@ -278,7 +312,25 @@ def draw_y(t, n):
 def draw_z(t, n):
     beam(t, n, 2)
     diagonal(t, n, 2*n)
-    fd(t, n)
+    forward(t, n)
+    
+def draw_horizontal_1(t, n):
+    """draw a horizontal line"""
+    fdbk(t, 300)
+    
+def draw_horizontal_2(t, n):
+    """draw a horizontal line"""
+    pen_up(t)
+    lt(t)
+    forward(t, 0.7*(n*2))
+    pen_down(t)
+    rt(t)
+    fdbk(t, 300)
+    pen_up(t)
+    rt(t)
+    forward(t, 0.7*(n*2))
+    pen_down(t)
+    lt(t)
 
 def draw_(t, n):
     # draw a space
@@ -290,7 +342,8 @@ if __name__ == '__main__':
     size = 20
     bob = turtle.Turtle()
 
-    for f in [draw_h, draw_e, draw_l, draw_l, draw_o]:
+
+    for f in [draw_horizontal_1, draw_horizontal_2, draw_o, draw_lowercase_l, draw_lowercase_e,  draw_lowercase_g]:
         f(bob, size)
         skip(bob, size)
 
