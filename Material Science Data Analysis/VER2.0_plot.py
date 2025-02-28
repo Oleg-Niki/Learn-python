@@ -18,10 +18,10 @@ A0 = thickness * width
 
 
 # Load CSV data (update the path if necessary)
-data = pd.read_csv('C:/Users/nikit/OneDrive/Docs/My/Edu/CSM/ENGR 270/Lab3/Specimen_RawData_1.csv')
+data = pd.read_csv(r'C:\Users\nikit\OneDrive\Docs\GitHub\Learn-Python\Learn-python\Material Science Data Analysis\Specimen_RawData_1_2.csv')
 # Clean up column names (remove extra spaces)
 data.columns = data.columns.str.strip()
-print("Columns found in CSV:", data.columns)
+#print("Columns found in CSV:", data.columns)
 
 # ---------------------------
 # Determine the correct displacement/extension column by searching for a column containing 'Extension'
@@ -46,11 +46,12 @@ if force_col is None:
 data['Displacement_m'] = data[disp_col] / 1000
 
 # ---------------------------
-# Calculate Engineering Stress and Engineering Strain
+# Calculate Engineering Stress and Engineering Strain and Engineering UTS
 data['Engineering_Stress'] = data[force_col] / A0  # Stress in Pascals (N/m^2)
 data['Engineering_Strain'] = data['Displacement_m'] / gauge_length
-
-
+engineering_UTS_Pa = data['Engineering_Stress'].max()
+engineering_UTS_MPa = round((engineering_UTS_Pa / 1e6), 2)
+print("Engineering UTS in MPa", engineering_UTS_MPa)
 
 
 
@@ -76,7 +77,7 @@ offset = 0.002  # 0.2%
 strain_vals = data['Engineering_Strain'].values
 
 
-# CHECH THIS FORMULA
+# CHECK THIS FORMULA
 offset_stress = E * (strain_vals - offset)
 #offset_stress = np.where(strain_vals >= offset, E * (strain_vals - offset), np.nan)
 
@@ -187,3 +188,45 @@ specimen_df = pd.DataFrame(specimen_properties)
 print("\nSpecimen Properties Table:")
 print(specimen_df)
 
+#-----------------------AFTER I WATCHED  THE VIDEO-------------------
+#calc Yield Stress
+offset = 0.002
+bOffset = -E * offset
+stressOffset = E * data['Engineering_Strain'] + bOffset
+offsetDelta = np.abs(data['Engineering_Stress'] - stressOffset)
+yieldIndex = offsetDelta.idxmin()
+yieldStress = data.loc[yieldIndex, 'Engineering_Stress']
+yieldStrain = data.loc[yieldIndex, 'Engineering_Strain']
+#print("\nYield Stress:", yieldStress, "Pa")
+yieldStressMPa = yieldStress / 1e6
+#print(yieldStressMPa, "MPa")
+#print("Yield Strain:", yieldStrain)
+
+#True Stress and True Strain
+trueStress = data['Engineering_Stress'] * (1 + data['Engineering_Strain'])
+#make trueStress to UTS
+trueUTS = trueStress.max()
+trueUTSMPa = trueUTS / 1e6
+print("True UTS:", trueUTSMPa, "MPa")
+percentElongation = (data['Displacement_m'].iloc[-1] / gauge_length) * 100
+rounded_percentElongation = round(percent_elongation, 0)
+print("Percent Elongation:", rounded_percentElongation, "%")
+
+trueStrain = np.log(1 + data['Engineering_Strain'])
+#make trueStrain to UTS
+UTSIndex = trueStress.idxmax()
+UTSStrain = trueStrain[UTSIndex]
+
+#plot Engineering vs True Stress and Strain
+plt.figure(figsize=(10, 6))
+plt.plot(data['Engineering_Strain'], data['Engineering_Stress'] / 1e6, label='Engineering Stress-Strain')
+plt.plot(trueStrain, trueStress / 1e6, label='True Stress-Strain')
+plt.plot(yieldStrain, yieldStress / 1e6, 'ro', label=f'Yield Point\n({yieldStressMPa:.2f} MPa)')
+plt.plot(UTSStrain, trueUTS / 1e6, 'go', label=f'True UTS\n({trueUTSMPa:.2f} MPa)')
+plt.xlabel('Strain')
+plt.ylabel('Stress (MPa)')
+plt.title('Engineering vs True Stress and Strain')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
