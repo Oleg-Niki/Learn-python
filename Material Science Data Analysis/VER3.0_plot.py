@@ -63,10 +63,13 @@ engineering_UTS_Pa = data['Engineering_Stress'].max()
 engineering_UTS_MPa = round((engineering_UTS_Pa / 1e6), 2)
 print("Engineering UTS in MPa", engineering_UTS_MPa)
 
-# Define a more restrictive elastic region
-elastic_limit = 0.02  # Use strains below 2%
+#This sets a threshold so that only data where the engineering strain is less than 2% (or 0.02 in decimal form) is considered. 
+#The assumption is that the material behaves linearly (i.e., elastically) in this region.
+elastic_limit = 0.02  # Use strains below 2% 
 linear_region = data[data['Engineering_Strain'] < elastic_limit]
 slope, intercept = np.polyfit(linear_region['Engineering_Strain'], linear_region['Engineering_Stress'], 1)
+#The slope from the linear fit is taken as the Young's modulus
+#E (in Pascals). Young's modulus quantifies the material's stiffness in the elastic region.
 E = slope  # in Pa
 
 # ---------------------------
@@ -106,8 +109,6 @@ yield_stress_TC = data.loc[yield_index_TC, 'Engineering_Stress']
 # Calculate % Elongation using displacement (remains unchanged)
 percent_elongation = (data['Displacement_m'].iloc[-1] / gauge_length) * 100
 
-
-
 # ---------------------------
 # Plot 1: Original vs. Toe-Compensated Engineering Stress-Strain (Full Range)
 plt.figure(figsize=(10, 6))
@@ -139,63 +140,7 @@ plt.annotate(f'% Elongation: {percent_elongation:.1f}%',
 plt.tight_layout()
 plt.show()
 
-#---------------------------# ---------------------------
-# Plot 2: Low Strain Region (Zoomed)
-plt.figure(figsize=(10, 6))
-zoom_mask = data['Engineering_Strain_TC'] < 0.05
-plt.plot(data.loc[zoom_mask, 'Engineering_Strain_TC'], 
-         data.loc[zoom_mask, 'Engineering_Stress'] / 1e6, 'g-', label='Toe-Compensated Data')
-plt.plot(data.loc[zoom_mask, 'Engineering_Strain_TC'], 
-         (E * (data.loc[zoom_mask, 'Engineering_Strain_TC'] - offset)) / 1e6, 'k--', label='0.2% Offset Line')
-plt.plot(yield_strain_TC, yield_stress_TC / 1e6, 'ro', label=f'Yield Point\n({yield_stress_TC/1e6:.2f} MPa)')
-plt.xlabel('Engineering Strain (Toe-Compensated)')
-plt.ylabel('Engineering Stress (MPa)')
-plt.title('Low Strain Region (Toe-Compensated)')
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.show()
 
-# ---------------------------
-# Calculate True Stress and True Strain
-data['True_Strain'] = np.log(1 + data['Engineering_Strain_TC'])
-data['True_Stress'] = data['Engineering_Stress'] * (1 + data['Engineering_Strain_TC'])
-
-# Fit the Strain Hardening Curve: σ = K * (ε)^n (using plastic region)
-plastic_mask = data['True_Strain'] > np.log(1 + yield_strain_TC)
-def strain_hardening(epsilon, K, n):
-    return K * (epsilon ** n)
-
-popt, pcov = curve_fit(strain_hardening, 
-                       data.loc[plastic_mask, 'True_Strain'], 
-                       data.loc[plastic_mask, 'True_Stress'], 
-                       p0=[900e6, 0.25])
-K_fitted, n_fitted = popt
-
-# Plot 3: True Stress vs. True Strain with Fitted Curve
-plt.figure(figsize=(10, 6))
-plt.plot(data['True_Strain'], data['True_Stress'] / 1e6, label='True Stress-Strain Data')
-strain_fit = np.linspace(data['True_Strain'].min(), data['True_Strain'].max(), 200)
-plt.plot(strain_fit, strain_hardening(strain_fit, K_fitted, n_fitted) / 1e6, '--', 
-         label=f'Fitted Curve\nK = {K_fitted/1e6:.1f} MPa, n = {n_fitted:.2f}')
-plt.xlabel('True Strain')
-plt.ylabel('True Stress (MPa)')
-plt.title('True Stress vs. True Strain with Strain Hardening Curve Fit')
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.show()
-
-# ---------------------------
-# Calculate and print additional metrics
-yieldStressMPa = yield_stress_TC / 1e6
-print("Toe-compensated Yield Stress: {:.2f} MPa".format(yieldStressMPa))
-percent_el = (data['Displacement_m'].iloc[-1] / gauge_length) * 100
-print("Percent Elongation:", round(percent_el, 0), "%")
-trueStress = data['Engineering_Stress'] * (1 + data['Engineering_Strain_TC'])
-trueUTS = trueStress.max()
-trueUTS_MPa = trueUTS / 1e6
-print("True UTS: {:.2f} MPa".format(trueUTS_MPa))
 
 
 # Create the 0.2% offset line
