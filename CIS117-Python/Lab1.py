@@ -7,7 +7,7 @@ Authors:
 Date: <Date>
 
 Description:
-    This program implements two simple games:
+    This program is two simple games:
     1) Guessing Game
     2) Rock-Paper-Scissors
 
@@ -21,12 +21,32 @@ import random
 
 def guessing_game():
     #generate a random number
-    secret_number = random.randint(1, 100)
+    secret_number = random.randint(1, 10)
     #set the number of attempts
     attempts = 5
     #prompt the user to guess the number
-    print("I'm thinking of a number between 1 and 100.")
+    print("I'm thinking of a number between 1 and 10, guess what number........")
+    user_enter = input("Enter number: ") #we may need verification of an integer but let's continue as is for now
+    user_guess = int(user_enter)
+    print("You entered: ", user_guess)
     
+    # do while attempts == 5
+    
+    if user_guess == secret_number:
+        print("Congrats! You win! Play again (Y or N)?")
+        
+        elif int(user_guess) < secret_number:
+            print("Too low! Try again.")
+            attempts += 1
+        else:
+            print("Too high! Try again.")
+            attempts += 1
+    
+    print("The number I was thinking of is: ", secret_number)
+    
+    pass
+
+
     """
     Author: Partner1
     --------------------------------------------------
@@ -131,13 +151,12 @@ if __name__ == "__main__":
         elif user_input == '2':
             rock_paper_scissors()
         elif user_input.lower() == 'q':
-            print("Thanks for playing!")
+            print("Thanks for playing! See you again")
             break
         else:
             print("Invalid choice. Please select 1, 2, or 'q' to quit.")
     
-    # pass
-    pass
+    
     # Note: The above code is a template and needs to be filled in with
     # actual game logic and user interaction.
     # The TODO comments indicate where to implement the game logic.
