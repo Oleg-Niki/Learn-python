@@ -1,57 +1,105 @@
-'''
-Objectives: 
-Work collaboratively to create a module of related functions in Python. 
-
-Look for your partners in Groups on Canvas
-Your assignment:
-This assignment is divided in two parts:
-
-Part 1: (with a partner): share the workload with your partner to create the Antics.py module
-Part 2 (individual): import the module you developed and test all function in a Jupyter Notebook
-The Antics.py module
-Create a module of functions to test alphabetical antics (or word play):
-
-Palindrome: a word or sentence that reads the same backwards
-Example: Anna, Bob, kayak, deed, rotator
-Pangram: a phrase or sentence containing all 26 letters of the alphabet
-Example: The quick brown fox jumps over the lazy dog.
-Tautogram: a text in which all words start with the same letter
-Example: Brilliant, because bacon bites beat bruschetta.
-Isogram: a word in which no letter of the alphabet occurs more than once
-Example: demographics
-Abedecerian: a word in which the letters appear in alphabetical order
-Example: bijoux, biopsy, dimpsy
-Dobloon: a word in which every letter that appears in the word appears exactly twice
-Example: murmur, noon, reappear, sees
-Each function should receive a word as an argument and return true of false. Name the module antics.py
-
-The Notebook
-Make a copy of Lab 2 notebookLinks to an external site. on your Google Drive Colab Notebooks folder.
-This part is individual
-Also upload the Antics.py module to your Google Drive Colab Notebooks folder.
-Follow the instructions to test your functions in Antics.py. 
- 
-
-Documentation 
-In the Antics.py:
-
-Write a header comment at the beginning of the antics.py module with the following information:
 # CIS-117 Lab2
-# Write a description of your module here
-# Group#
-# Names of all group members (first and last)
-Document all functions in the module following docstring format
-In the notebook:
+# Description: This module contains functions that check for various alphabetical "antics":
+#              Palindrome, Pangram, Tautogram, Isogram, Abecederian, and Dobloon.
+# Group#: <your group number>
+# Names: <list of group members here>
 
-Follow the instructions in the .ipynb for the header document there
- 
+"""
+Module: Antics
 
-Testing:
-Follow the instructions in the notebook to import and test the module.
+This module defines six functions:
+1. is_palindrome(text)
+2. is_pangram(text)
+3. is_tautogram(text)
+4. is_isogram(word)
+5. is_abecederian(word)
+6. is_dobloon(word)
+"""
 
-Submission:
-The submission is individual. Turn in both:
+# FUNCTION is_palindrome(text):
+#     1. Convert text to lowercase.
+#     2. Remove all non-alphabetic characters (optional) or at least strip spaces.
+#     3. Set reversed_text = reverse of the cleaned text.
+#     4. IF cleaned text is EQUAL to reversed_text:
+#         RETURN True
+#        ELSE:
+#         RETURN False
 
-Antics.py that you completed with your partner
-Your notebook (Lab2_YourLastName_FirstName.ipynb) file
-'''
+def is_palindrome():
+    """
+    Checks if the given text is a palindrome.
+    Ignores case and optionally non-alphabetic characters.
+    Returns True if palindrome, False otherwise.
+    """
+    # 1. Convert text to lowercase.
+    lowercase_text = text.lower()
+    # 2. Remove all non-alphabetic characters (optional) or at least strip spaces.
+    # Input string
+    s1 = lowercase_text
+
+    # Use list comprehension to keep only alphanumeric characters
+    s2 = ''.join([char for char in s1 if char.isalnum()])
+
+    # Print the cleaned string
+    print(s2)
+
+
+print(is_palindrome(racecar))
+
+# FUNCTION is_pangram(text):
+#     1. Convert text to lowercase.
+#     2. Initialize an empty set to track letters found, e.g. found_letters = {}.
+#     3. FOR each character in text:
+#         a. IF character is a letter (a–z):
+#             - Add character to the found_letters set.
+#     4. IF the size of found_letters is 26:
+#         RETURN True
+#        ELSE:
+#         RETURN False
+        
+
+# FUNCTION is_tautogram(text):
+#     1. Convert text to lowercase.
+#     2. Split text into a list of words.
+#     3. IF there are no words, return False (or handle as appropriate).
+#     4. Get the first letter of the first word (call this initial_letter).
+#     5. FOR each word in the list of words:
+#         a. IF the first letter of the current word is NOT the same as initial_letter:
+#             RETURN False
+#     6. IF the loop completes with no mismatch:
+#         RETURN True
+        
+        
+# FUNCTION is_isogram(word):
+#     1. Convert word to lowercase.
+#     2. Remove all non-alphabetic characters if necessary.
+#     3. Create an empty set called letters_seen.
+#     4. FOR each character in word:
+#         a. IF character is in letters_seen:
+#             RETURN False
+#         b. ELSE:
+#             Add character to letters_seen
+#     5. IF the loop finishes with no repeats found:
+#         RETURN True
+
+# FUNCTION is_abecederian(word):
+#     1. Convert word to lowercase.
+#     2. Remove all non-alphabetic characters if necessary.
+#     3. Create a sorted version of the letters, call it sorted_word.
+#     4. IF sorted_word is EQUAL to the original word (after cleaning):
+#         RETURN True
+#        ELSE:
+#         RETURN False
+        
+
+# FUNCTION is_dobloon(word):
+#     1. Convert word to lowercase.
+#     2. Remove all non-alphabetic characters if necessary.
+#     3. Create a dictionary (or a Counter) to count occurrences of each letter.
+#     4. FOR each letter in the word:
+#         - Increase the count of that letter in the dictionary.
+#     5. FOR each letter in the dictionary:
+#         a. IF the count of that letter is not exactly 2:
+#             RETURN False
+#     6. IF all letters have count = 2:
+#         RETURN True
