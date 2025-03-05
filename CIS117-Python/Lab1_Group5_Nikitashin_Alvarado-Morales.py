@@ -1,8 +1,8 @@
 """
 Lab 1
-Group #X
+Group #5
 Authors: 
-    - Partner1: <Oleg> (Guessing Game)
+    - Partner1: <Oleg Nikitashin> (Guessing Game)
     - Partner2: <Jeyden Alvarado-Morales> (Rock-Paper-Scissors)
 Date: <03/04/2025>
 
