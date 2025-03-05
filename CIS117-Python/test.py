@@ -1,22 +1,30 @@
-import math
+my_list = [1,2,3,4,1,2,3,4,5,6,8,9,5,4,3]
+print(my_list)
+my_char = 'Oleg'
+#print(set(my_list))
 
-def hypotenuse(side1, side2):
-    """Returns the length of the hypotenuse of a right triangle
-    with legs x and y.
-    """
-    return math.sqrt(side1**2 + side2**2)
+my_list.sort()
+print(my_list)
 
-def cube(x):
-    """Returns the cube of x."""
-    return x**3
+my_list += [my_char]
+print(my_list)
 
-def square(x):
-    """Returns the square of x."""
-    return x**2
+days = {"Sunday": 1, "Monday" : 2, "Tuesday" : 4}
+print(days)
+print(days["Sunday"])
+total_days = sum(days.values())
+print(total_days)
 
-if __name__ == "main":
-    print("Hypotenuse of a triangle with legs 3 and 4:", hypotenuse(3, 4))
-    print("Cube of 3:", cube(3))
+#recipes = {"Indian" : {"paneer tikka masala" : {serv1 : (banana, apple, paneer)} }}
 
+def frequency(itemList):
+    counters = {}
+    for item in itemList:
+        if item in counters:
+            counters[item] += 1
+        else:
+            counters[item] = 1
+        return counters
 
-
+   
+print(frequency(days))
