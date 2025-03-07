@@ -115,7 +115,7 @@ def isogram(text):
         
     return True
             
-# 5. FUNCTION is_abecederian(word):
+# 5. FUNCTION abecederian(text):
 #     5.1. Convert word to lowercase.
 #     5.2. Remove all non-alphabetic characters if necessary.
 #     5.3. Create a sorted version of the letters, call it sorted_word.
@@ -123,19 +123,31 @@ def isogram(text):
 #         RETURN True
 #        ELSE:
 #         RETURN False
+def abecederian(text):
+    text = text.lower()
+    clean_text = ''.join(char for char in text if char.isalnum()) # String free of spaces, punctuation, and special characters
+    sorted_text = ''.join(sorted(clean_text))  # Sorting characters alphabetically
+    if sorted_text == clean_text:
+        return True
+    else:
+        return False
         
-
-# FUNCTION is_dobloon(word):
-#     1. Convert word to lowercase.
-#     2. Remove all non-alphabetic characters if necessary.
-#     3. Create a dictionary (or a Counter) to count occurrences of each letter.
-#     4. FOR each letter in the word:
+# 6.FUNCTION is_dobloon(word):
+#     6.1. Convert word to lowercase.
+#     6.2. Remove all non-alphabetic characters if necessary.
+#     6.3. Create a dictionary (or a Counter) to count occurrences of each letter.
+#     6.4. FOR each letter in the word:
 #         - Increase the count of that letter in the dictionary.
-#     5. FOR each letter in the dictionary:
+#     6.5. FOR each letter in the dictionary:
 #         a. IF the count of that letter is not exactly 2:
 #             RETURN False
-#     6. IF all letters have count = 2:
+#     6.6. IF all letters have count = 2:
 #         RETURN True
+def dobloon(text)
+text = text.lower()
+clean_text = ''.join(char for char in text if char.isalnum()) # String free of spaces, punctuation, and special characters
+letter_count = Counter(c.lower() for c in text if c.isalpha())
+
 
 if __name__ == "__main__":
     while True:
@@ -144,6 +156,7 @@ if __name__ == "__main__":
         print("2. Pangram")
         print("3. Tautogram")
         print("4. Isogram")
+        print("5. Abecederian")
         print("To be continued...")
         user_input = input("Enter your choise (or 'q' to quit) : ")
         
@@ -163,6 +176,10 @@ if __name__ == "__main__":
             user_word = input("Enter your text: ")
             result = isogram(user_word)
             print("Is Isogram? the result is: ", result)
+        elif user_input == '5':
+            user_word = input("Enter your text: ")
+            result = abecederian(user_word)
+            print("Is Abecederian? the result is: ", result)
             
         elif user_input.lower() == 'q':
             print("Goodbye")
