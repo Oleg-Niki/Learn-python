@@ -26,26 +26,19 @@ This module defines six functions:
 #         RETURN False
 
 
-def is_palindrome(text):
+def is_palindrome(one):
     """
     Checks if the given text is a palindrome.
     Ignores case and optionally non-alphabetic characters.
     Returns True if palindrome, False otherwise.
     """
-    
-    # 1. Convert text to lowercase. (COULD BE WRONG!!!!!!!!!!!!! NEED TO DOUBLE CHECK)
-    lowercase_text = text.lower()
-    # 2. Remove all non-alphabetic characters (optional) or at least strip spaces.
-    # Input string
-    s1 = lowercase_text
-
-    # Use list comprehension to keep only alphanumeric characters
-    s2 = ''.join([char for char in s1 if char.isalnum()])
-
-    # Print the cleaned string
-    print(s2)
-    
-    # 3. Set reversed_text = reverse of the cleaned text.
+    name = one.lower()
+    word = ''
+    for i in name:
+        if 'a' <= i <= 'z':
+            word += i
+        
+    return word == word[::-1]
 
 
 
@@ -107,3 +100,23 @@ def is_palindrome(text):
 #             RETURN False
 #     6. IF all letters have count = 2:
 #         RETURN True
+
+if __name__ == "__main__":
+    while True:
+        print("hello user! choose your function:")
+        print("1. Palindrome")
+        print("2. Pangram")
+        print("To be continued...")
+        user_input = input("Enter your choise (or 'q' to quit) : ")
+        
+        if user_input == "1":
+            user_word = input("Enter your word: ")
+            result = is_palindrome(user_word)
+            print("Is Palindrome? the result is: ", result)
+        elif user_input == '2':
+            is_pangram()
+        elif user_input.lower() == 'q':
+            print("Goodbye")
+            break
+        else:
+            print("Invalid choice, please read the instructions above")
