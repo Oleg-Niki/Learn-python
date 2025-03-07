@@ -146,7 +146,15 @@ def abecederian(text):
 def dobloon(text)
 text = text.lower()
 clean_text = ''.join(char for char in text if char.isalnum()) # String free of spaces, punctuation, and special characters
-letter_count = Counter(c.lower() for c in text if c.isalpha())
+# text = "hello world"
+# letter_count = {}
+
+# for char in text:
+#     if char.isalpha():  # Ignore spaces and non-alphabetic characters
+#         char = char.lower()  # Convert to lowercase for case insensitivity
+#         letter_count[char] = letter_count.get(char, 0) + 1
+
+# print(letter_count)
 
 
 if __name__ == "__main__":
