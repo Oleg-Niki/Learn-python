@@ -55,7 +55,7 @@ def palindrome(text):
 
 def pangram(text):
     """
-    Checks if sentence containing all 26 letters of the alphabet
+    Check if the given text is a pangram, meaning it contains every letter of the English alphabet at least once.
     """
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
     text = text.lower()
@@ -143,18 +143,22 @@ def abecederian(text):
 #             RETURN False
 #     6.6. IF all letters have count = 2:
 #         RETURN True
-def dobloon(text)
-text = text.lower()
-clean_text = ''.join(char for char in text if char.isalnum()) # String free of spaces, punctuation, and special characters
-# text = "hello world"
-# letter_count = {}
+def dobloon(text):
+    """
+    Check if the word is a dobloon, meaning each alphabetic character appears exactly twice.
 
-# for char in text:
-#     if char.isalpha():  # Ignore spaces and non-alphabetic characters
-#         char = char.lower()  # Convert to lowercase for case insensitivity
-#         letter_count[char] = letter_count.get(char, 0) + 1
+    """
+    text = text.lower()
+    clean_text = ''.join(char for char in text if char.isalnum()) # String free of spaces, punctuation, and special characters
+    letter_count = {}
+    for char in clean_text:
+        letter_count[char] = letter_count.get(char, 0) + 1
+    for count in letter_count.values():
+        if count != 2:
+            return False
+    return True
 
-# print(letter_count)
+
 
 
 if __name__ == "__main__":
@@ -165,6 +169,7 @@ if __name__ == "__main__":
         print("3. Tautogram")
         print("4. Isogram")
         print("5. Abecederian")
+        print("6. Dobloon")
         print("To be continued...")
         user_input = input("Enter your choise (or 'q' to quit) : ")
         
@@ -188,9 +193,13 @@ if __name__ == "__main__":
             user_word = input("Enter your text: ")
             result = abecederian(user_word)
             print("Is Abecederian? the result is: ", result)
+        elif user_input == '6':
+            user_word = input("Enter your text: ")
+            result = dobloon(user_word)
+            print("Is Abecederian? the result is: ", result)
             
         elif user_input.lower() == 'q':
-            print("Goodbye")
+            print("Goodbye...")
             break
         else:
             print("Invalid choice, please read the instructions above")
