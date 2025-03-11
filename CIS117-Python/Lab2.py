@@ -8,12 +8,12 @@
 Module: Antics
 
 This module defines six functions:
-1. is_palindrome(text)
-2. is_pangram(text)
-3. is_tautogram(text)
-4. is_isogram(word)
-5. is_abecederian(word)
-6. is_dobloon(word)
+1. palindrome(text)
+2. pangram(text)
+3. tautogram(text)
+4. isogram(word)
+5. abecederian(word)
+6. dobloon(word)
 """
 
 # 1. FUNCTION is_palindrome(text):
