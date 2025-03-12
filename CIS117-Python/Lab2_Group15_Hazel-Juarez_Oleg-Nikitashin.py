@@ -199,7 +199,7 @@ if __name__ == "__main__":
             print("Is Abecederian? the result is: ", result)
             
         elif user_input.lower() == 'q':
-            print("Goodbye...")
+            print("Goodbye user, see you soon...")
             break
         else:
             print("Invalid choice, please read the instructions above")
