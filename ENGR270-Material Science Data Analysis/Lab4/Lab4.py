@@ -122,13 +122,14 @@ plt.show()
 
 ###############################################################################
 # 5) PLOT 3: Engineering Stress-Strain for Each Cycle using UPDATED Ai, Li
+#     with Elastic Region (Young’s Modulus) and 0.2% Offset Lines
 ###############################################################################
 plt.figure()
 
 for cycle_index, fname in enumerate(filenames):
     df_raw = pd.read_csv(fname, header=0)
     
-    # Strip spaces and rename columns if needed.
+    # Strip extra spaces and rename columns if needed.
     df_raw.columns = df_raw.columns.str.strip()
     if "Load (N)" in df_raw.columns:
         df_raw.rename(columns={"Load (N)": "Load"}, inplace=True)
@@ -138,10 +139,11 @@ for cycle_index, fname in enumerate(filenames):
     load_col = "Load"
     extension_col = "Extension"
     
+    # Convert columns to numeric.
     df_raw[load_col] = pd.to_numeric(df_raw[load_col], errors="coerce")
     df_raw[extension_col] = pd.to_numeric(df_raw[extension_col], errors="coerce")
     
-    # Determine cycle number (0-based)
+    # Determine cycle number (0-based indexing)
     cycle_number = cycle_index
     Ai = Ai_dict.get(cycle_number, A0)
     Li = Li_dict.get(cycle_number, L0)
@@ -151,18 +153,86 @@ for cycle_index, fname in enumerate(filenames):
     df_raw["Eng_Strain"] = df_raw[extension_col] / Li
     
     # ----- Toe Compensation -----
+    # Subtract the minimum measured strain to remove the toe region.
     toe_comp = df_raw["Eng_Strain"].min()
     df_raw["Eng_Strain"] = df_raw["Eng_Strain"] - toe_comp
     # --------------------------------
     
+    # Plot the experimental stress-strain curve.
     plt.plot(df_raw["Eng_Strain"], df_raw["Eng_Stress"], label=f"Cycle {cycle_number}")
-
+    
+    # --- Estimate Young's Modulus from the initial elastic region ---
+    # Define threshold for elastic region (e.g., strain < 0.005).
+    mask = df_raw["Eng_Strain"] < 0.005
+    if mask.sum() > 1:
+        # Fit a line: stress = E * strain + intercept
+        p = np.polyfit(df_raw["Eng_Strain"][mask], df_raw["Eng_Stress"][mask], 1)
+        E_est = p[0]  # estimated Young's modulus
+        
+        # Create a strain range for plotting the elastic line.
+        strain_line = np.linspace(0, 0.005, 50)
+        stress_line = E_est * strain_line  # elastic line through origin
+        
+        # Plot the elastic (Young’s Modulus) line in red (solid)
+        plt.plot(strain_line, stress_line, 'r-', linewidth=2, label=f"Cycle {cycle_number} E")
+        
+        # --- Plot the 0.2% Offset Line ---
+        # Shift the elastic line by 0.002 (0.2% strain)
+        stress_offset = E_est * (strain_line - 0.002)
+        plt.plot(strain_line, stress_offset, 'r--', linewidth=2, label=f"Cycle {cycle_number} 0.2% Offset")
+        # The intersection of this offset line with your experimental curve is taken as the yield strength.
+    
 plt.xlabel("Engineering Strain (mm/mm)")
 plt.ylabel("Engineering Stress (MPa)")
 plt.title("Plot 3: Eng. Stress-Strain (Updated Ai, Li per Cycle)")
 plt.legend()
 plt.grid(True)
 plt.show()
+
+
+# ###############################################################################
+# # 5) PLOT 3: Engineering Stress-Strain for Each Cycle using UPDATED Ai, Li
+# ###############################################################################
+# plt.figure()
+
+# for cycle_index, fname in enumerate(filenames):
+#     df_raw = pd.read_csv(fname, header=0)
+    
+#     # Strip spaces and rename columns if needed.
+#     df_raw.columns = df_raw.columns.str.strip()
+#     if "Load (N)" in df_raw.columns:
+#         df_raw.rename(columns={"Load (N)": "Load"}, inplace=True)
+#     if "Extension (mm)" in df_raw.columns:
+#         df_raw.rename(columns={"Extension (mm)": "Extension"}, inplace=True)
+    
+#     load_col = "Load"
+#     extension_col = "Extension"
+    
+#     df_raw[load_col] = pd.to_numeric(df_raw[load_col], errors="coerce")
+#     df_raw[extension_col] = pd.to_numeric(df_raw[extension_col], errors="coerce")
+    
+#     # Determine cycle number (0-based)
+#     cycle_number = cycle_index
+#     Ai = Ai_dict.get(cycle_number, A0)
+#     Li = Li_dict.get(cycle_number, L0)
+    
+#     # Compute engineering stress and strain using updated dimensions.
+#     df_raw["Eng_Stress"] = df_raw[load_col] / Ai
+#     df_raw["Eng_Strain"] = df_raw[extension_col] / Li
+    
+#     # ----- Toe Compensation -----
+#     toe_comp = df_raw["Eng_Strain"].min()
+#     df_raw["Eng_Strain"] = df_raw["Eng_Strain"] - toe_comp
+#     # --------------------------------
+    
+#     plt.plot(df_raw["Eng_Strain"], df_raw["Eng_Stress"], label=f"Cycle {cycle_number}")
+
+# plt.xlabel("Engineering Strain (mm/mm)")
+# plt.ylabel("Engineering Stress (MPa)")
+# plt.title("Plot 3: Eng. Stress-Strain (Updated Ai, Li per Cycle)")
+# plt.legend()
+# plt.grid(True)
+# plt.show()
 
 ###############################################################################
 # 6) PLOT 4: Yield Strength & Ductility vs. Hardness
