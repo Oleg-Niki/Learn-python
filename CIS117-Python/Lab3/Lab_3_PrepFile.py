@@ -10,6 +10,7 @@ Collaboration: Describe briefly how the work was divided (e.g., one partner hand
 """
 
 import csv
+import os # For file path handling (I want to save files in the same directory as the input file)
 
 def read_csv(input_filename):
     """
