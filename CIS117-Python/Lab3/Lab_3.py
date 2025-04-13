@@ -66,5 +66,6 @@ def split_countries_by_region(input_file):
 
 if __name__ == "__main__":
     # Update the input filename with the absolute path if needed.
-    input_filename = "c:/Users/nikit/Learn-python/Learn-python-16/CIS117-Python/Lab3/country_full.csv"
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    input_filename = os.path.join(base_path, "country_full.csv")
     split_countries_by_region(input_filename)
