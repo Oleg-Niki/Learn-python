@@ -75,7 +75,7 @@ $DJANGO_SECRET_KEY=some-random-string
 python manage.py migrate
 ```
 ### 6. Define AWS Lambda functions
-#### fetch_irradiance.py
+fetch_irradiance.py
 
 Reads lat, lon from event → calls PVWatts API → returns sun_hours
 
@@ -88,11 +88,11 @@ size_system.py
 Inputs: sun_hours, daily_load_wh, panel_eff=0.8, bat_v=12, dod=0.5
 
 Outputs:
-
+```bash
 panel_w = ceil(daily_load_wh / (sun_hours * panel_eff))
 
 battery_ah = ceil((daily_load_wh / bat_v) / dod)
-
+```
 Deploy each with AWS SAM or Serverless Framework; expose via API Gateway.
 
 ### 7. Wire up Django views
@@ -106,15 +106,15 @@ Render results + chart (e.g. with Chart.js or Plotly)
 
 ### 🎯 Running Locally
 1. Start Django dev server:
-
+```bash
 python manage.py runserver
-
+```
 In another terminal, you can test Lambda functions locally (if using SAM):
-
+```bash
 sam local invoke fetchIrradianceFunction --event tests/irradiance_event.json
-
+```
 ### 📂 Project Structure
-
+```bash
 van-solar-sizer/
 ├── aws/                        # Lambda function code & SAM templates
 │   ├── fetch_irradiance.py
@@ -128,12 +128,13 @@ van-solar-sizer/
 ├── requirements.txt
 ├── README.md
 └── .env.example
-
+```
 ### 📈 Deployment
 Lambda & API Gateway:
-
+```bash
 cd aws
 sam deploy --guided
+```
 Django:
 
 Host on Heroku, AWS Elastic Beanstalk, or any VPS
