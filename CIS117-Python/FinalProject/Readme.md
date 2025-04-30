@@ -71,11 +71,11 @@ $PVWATTS_API_KEY=YOUR_NREL_KEY
 $DJANGO_SECRET_KEY=some-random-string
 ```
 ### 5. Initialize sqlite3 database
-
+```bash
 python manage.py migrate
-
+```
 ### 6. Define AWS Lambda functions
-fetch_irradiance.py
+#### fetch_irradiance.py
 
 Reads lat, lon from event → calls PVWatts API → returns sun_hours
 
